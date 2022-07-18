@@ -28,17 +28,44 @@ class COU_OT_open_url(bpy.types.Operator):
         return {"FINISHED"}
 
 
+class COU_OT_add_url(bpy.types.Operator):
+    bl_idname = "object.add_url"
+    bl_label = "Add URL"
+    bl_description = "Add the a text object of URL."
+
+    def execute(self, context):
+        s = bpy.context.window_manager.clipboard
+        if not (isinstance(s, str) and s.startswith("http")):
+            self.report({"WARNING"}, "Copy URL")
+            return {"CANCELLED"}
+        bpy.ops.object.text_add(radius=0.1)
+        text = bpy.context.object
+        text.data.body = s
+        text.name = "URL"
+        text.hide_render = True
+        return {"FINISHED"}
+
+
+ui_classes = (
+    COU_OT_open_url,
+    COU_OT_add_url,
+)
+
+
 def draw_item(self, context):
     self.layout.operator(COU_OT_open_url.bl_idname)
+    self.layout.operator(COU_OT_add_url.bl_idname)
 
 
 def register():
-    bpy.utils.register_class(COU_OT_open_url)
+    for ui_class in ui_classes:
+        bpy.utils.register_class(ui_class)
     bpy.types.VIEW3D_MT_object.append(draw_item)
 
 
 def unregister():
-    bpy.utils.unregister_class(COU_OT_open_url)
+    for ui_class in ui_classes:
+        bpy.utils.unregister_class(ui_class)
     bpy.types.VIEW3D_MT_object.remove(draw_item)
 
 
