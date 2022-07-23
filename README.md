@@ -4,7 +4,7 @@ Open the URL of a text object.
 
 ## Installation
 
-- Download https://github.com/SaitoTsutomu/OpenURL/archive/refs/heads/main.zip
+- Download https://github.com/SaitoTsutomu/OpenURL/archive/refs/heads/master.zip
 - Start Blender.
 - Edit menu -> Preferences
   - Select the "Add-ons" tab.
